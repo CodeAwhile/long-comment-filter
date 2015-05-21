@@ -1,4 +1,4 @@
-=== Short Comment Filter ===
+=== Long Comment Filter ===
 Contributors: itsananderson
 Requires at least: 4.2
 Tested up to: 4.2
@@ -28,7 +28,7 @@ Long Comment Filter Plugin is pretty flexible. Here are some things you can cust
 
 1. Upload the complete `long-comment-filter` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Navigate to Settings > Short Comment Filter to customize the plugin settings.
+3. Navigate to Settings > Long Comment Filter to customize the plugin settings.
 4. If you wish to use client side JavaScript filtering, make sure your comment form has ID "commentform" and your comment textbox has ID "comment"
 
 
@@ -39,5 +39,5 @@ Long Comment Filter Plugin is pretty flexible. Here are some things you can cust
 3. Search for "Long Comment Filter"
 4. Click "Install"
 5. Click "Activate"
-6. Navigate to Settings > Short Comment Filter to customize the plugin settings.
+6. Navigate to Settings > Long Comment Filter to customize the plugin settings.
 7. If you wish to use client side JavaScript filtering, make sure your comment form has ID "commentform" and your comment textbox has ID "comment"
