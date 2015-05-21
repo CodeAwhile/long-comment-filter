@@ -15,14 +15,12 @@ class Long_Comment_Filter_Settings {
 
     static function admin_init() {
         // Register option names to whitelist them
-        $general_options = array( 'longfilter_filter_type', 'longfilter_filter_users',
-                                  'longfilter_default_action', 'longfilter_js_check' );
-        $long_comment_options = array( 'longfilter_max_enable', 'longfilter_max_count', 'longfilter_max_message' );
+        $options = array( 'longfilter_filter_type', 'longfilter_filter_users',
+                                  'longfilter_default_action', 'longfilter_js_check',
+                                  'longfilter_max_count', 'longfilter_max_message' );
 
-        foreach ( array( $general_options, $long_comment_options, $long_comment_options ) as $option_names ) {
-            foreach ( $option_names as $option_name ) {
-                register_setting( 'longfilter-options', $option_name );
-            }
+        foreach ( $options as $option_name ) {
+            register_setting( 'longfilter-options', $option_name );
         }
     }
 
@@ -111,7 +109,7 @@ class Long_Comment_Filter_Settings {
      * Get whether to check comment length on client side via JavaScript
      */
     static function get_js_check() {
-        return get_option('longfilter_js_check', '');
+        return get_option('longfilter_js_check', 'on');
     }
 
     /*

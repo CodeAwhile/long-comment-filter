@@ -11,11 +11,11 @@ jQuery(function($){
                                 .replace('%length%', maxCount)
                                 .replace('%type%', filterType);
 
-        if ('words' === filterType && comment.split(' ') < maxCount){
+        if ('words' === filterType && comment.split(' ') > maxCount){
             alert(filterMessage);
             e.preventDefault();
             return false;
-        } else if ('characters' === filterType && comment.length < maxCount) {
+        } else if ('characters' === filterType && comment.length > maxCount) {
             alert(filterMessage);
             e.preventDefault();
             return false;

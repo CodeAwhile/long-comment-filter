@@ -47,10 +47,6 @@
         <h3 class="title"><?php _e( 'Long Comment Settings'); ?></h3>
         <table class="form-table">
             <tr>
-                <th scope="row"><label for="longfilter_max_enable"><?php( 'Filter Long Comments' ); ?></label></th>
-                <td><input type="checkbox" id="longfilter_max_enable" name="longfilter_max_enable" <?php echo Long_Comment_Filter_Settings::get_max_enable() == 'on' ? 'checked="checked"' : ''?> /></td>
-            </tr>
-            <tr>
                 <th scope="row"><label for="longfilter_max_count"><?php _e( 'Maximum Comment Length' ); ?></label></th>
                 <td><input type="text" id="longfilter_max_count" name="longfilter_max_count" value="<?php Long_Comment_Filter_Settings::max_count() ?>" /></td>
             </tr>
@@ -64,7 +60,7 @@
                     <?php _e( 'The following variables will be replaced dynamically with their corresponding values:' ); ?><br />
                     <ul>
                         <li><?php _e( '<strong>%type%</strong> - value of Filter Type (\'words\' or \'characters\')' ); ?></li>
-                        <li><?php _e( '<strong>%length%</strong> - value of Minimum Count'); ?></li>
+                        <li><?php _e( '<strong>%length%</strong> - value of Maxmum Comment Length'); ?></li>
                     </ul>
                 </td>
             </tr>
