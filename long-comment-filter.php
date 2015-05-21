@@ -1,15 +1,15 @@
 <?php
 /*
 
-Plugin Name: Short Comment Filter
-Plugin URI: http://www.itsananderson.com/plugins/short-comment-filter
+Plugin Name: Long Comment Filter
+Plugin URI: http://www.itsananderson.com/plugins/long-comment-filter
 Description: Automatically Spams or Deletes comments that don't meet a specified length requirement.
 Author: Will Anderson
 Version: 2.2
 Author URI: http://www.itsananderson.com/
 */
 
-class Short_Comment_Filter {
+class Long_Comment_Filter {
 
     const VERSION = '2.2';
 
@@ -19,7 +19,7 @@ class Short_Comment_Filter {
      * @return void
      */
     public static function start() {
-        add_filter( 'preprocess_comment',array( __CLASS__, 'filter_short_comments' ) );
+        add_filter( 'preprocess_comment',array( __CLASS__, 'filter_long_comments' ) );
         add_action( 'get_header', array( __CLASS__, 'maybe_add_js_check' ) );
     }
 
@@ -27,10 +27,10 @@ class Short_Comment_Filter {
      * Filter applied to comments.
      * Removes comments that don't meet a specific length requirement.
      */
-    public static function filter_short_comments($comment) {
+    public static function filter_long_comments($comment) {
         if ( self::filter_comment_check($comment) ) {
-            Short_Comment_Filter_Settings::increment_filtered_comment_count();
-            self::filter_short_comment($comment);
+            Long_Comment_Filter_Settings::increment_filtered_comment_count();
+            self::filter_long_comment($comment);
         }
         return $comment;
     }
@@ -40,16 +40,16 @@ class Short_Comment_Filter {
      */
     public static function filter_comment_check($comment) {
         // Only filter registered users if that option is enabled
-        if ( $comment['user_ID'] && !Short_Comment_Filter_Settings::get_filter_users() ) return false;
+        if ( $comment['user_ID'] && !Long_Comment_Filter_Settings::get_filter_users() ) return false;
         if ( $comment['comment_type'] ) return false; // don't filter trackbacks
         $comment_content = preg_replace('/\s+/', ' ', $comment['comment_content']);
-        $filter_type = Short_Comment_Filter_Settings::get_filter_type();
+        $filter_type = Long_Comment_Filter_Settings::get_filter_type();
         if ( 'words' == $filter_type ) {
             $words = explode(' ', $comment_content);
-            return count($words) < Short_Comment_Filter_Settings::get_min_count();
+            return count($words) < Long_Comment_Filter_Settings::get_max_count();
         }
         if ( 'characters' == $filter_type ) {
-            return strlen($comment_content) < Short_Comment_Filter_Settings::get_min_count();
+            return strlen($comment_content) < Long_Comment_Filter_Settings::get_max_count();
         }
         return false;
     }
@@ -57,14 +57,14 @@ class Short_Comment_Filter {
     /*
      * At the end of the request, remove the comment.
      */
-    public static function filter_short_comment() {
+    public static function filter_long_comment() {
 
         // Leaving room for more actions
-        switch ( Short_Comment_Filter_Settings::get_default_action() ){
+        switch ( Long_Comment_Filter_Settings::get_default_action() ){
             case 'delete':
-                $type = Short_Comment_Filter_Settings::get_filter_type();
-                $length = Short_Comment_Filter_Settings::get_min_count();
-                $message = Short_Comment_Filter_Settings::get_short_comment_message();
+                $type = Long_Comment_Filter_Settings::get_filter_type();
+                $length = Long_Comment_Filter_Settings::get_max_count();
+                $message = Long_Comment_Filter_Settings::get_long_comment_message();
                 $message = str_replace('%type%', $type, $message);
                 $message = str_replace('%length%', $length, $message);
                 wp_die($message);
@@ -79,16 +79,16 @@ class Short_Comment_Filter {
      * If JavaScript checking is enabled, queue the script and add the variable settings via wp_localize_script
      */
     public static function maybe_add_js_check(){
-        if ( Short_Comment_Filter_Settings::get_js_check() == 'on' &&
-             ( !is_user_logged_in() || Short_Comment_Filter_Settings::get_filter_users() == 'on' ) ) {
+        if ( Long_Comment_Filter_Settings::get_js_check() == 'on' &&
+             ( !is_user_logged_in() || Long_Comment_Filter_Settings::get_filter_users() == 'on' ) ) {
             $data = array(
-                'filter_type' => Short_Comment_Filter_Settings::get_filter_type(),
-                'min_count' => Short_Comment_Filter_Settings::get_min_count(),
-                'filter_message' => preg_replace('/[\r\n]+/', '\r\n', addslashes( Short_Comment_Filter_Settings::get_short_comment_message() ) )
+                'filter_type' => Long_Comment_Filter_Settings::get_filter_type(),
+                'max_count' => Long_Comment_Filter_Settings::get_max_count(),
+                'filter_message' => preg_replace('/[\r\n]+/', '\r\n', addslashes( Long_Comment_Filter_Settings::get_long_comment_message() ) )
             );
-            wp_enqueue_script( 'short-comment-filter', plugins_url( 'js/short-comment-filter-frontend.js', __FILE__ ),
+            wp_enqueue_script( 'long-comment-filter', plugins_url( 'js/long-comment-filter-frontend.js', __FILE__ ),
                                array( 'jquery', 'jquery-form' ), self::VERSION );
-            wp_localize_script( 'short-comment-filter', 'short_comment_settings', $data );
+            wp_localize_script( 'long-comment-filter', 'long_comment_settings', $data );
         }
     }
 
@@ -109,7 +109,7 @@ class Short_Comment_Filter {
     }
 }
 
-include plugin_dir_path( __FILE__ ) . 'classes/short-comment-filter-settings.php';
+include plugin_dir_path( __FILE__ ) . 'classes/long-comment-filter-settings.php';
 
-Short_Comment_Filter::start();
-Short_Comment_Filter_Settings::start();
+Long_Comment_Filter::start();
+Long_Comment_Filter_Settings::start();
